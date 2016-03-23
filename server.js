@@ -4,17 +4,18 @@ let express = require('express');
 let app = express();
 let bodyParser = require('body-parser');
 let mongoose = require('mongoose');
-
+let config = require('./config/enviro.js');
 
 let publicRouter = express.Router();
-let apiRouter = express.Router();
+
+mongoose.connect(config.MONGO_URI)
+app.use(bodyParser.json());
 
 require('./routes/login')(publicRouter);
-require('./routes/user-routes')(apiRouter)
-// mongoose.connect(config.DB_PORT)
-app.use(bodyParser.json());
-app.use('/public', publicRouter);
+require('./routes/user-routes')(publicRouter);
 
-app.listen(3000, () => {
+app.use(publicRouter);
+
+app.listen(config.PORT, () => {
   console.log('Server started on port 3000!');
 })

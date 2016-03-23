@@ -12,12 +12,12 @@ module.exports = (router) => {
     })
     .post((req, res) => {
       var newUser = new User(req.body);
+      console.log(newUser);
       newUser.save((err, user) => {
         if (err) {return res.send(err);}
         res.status(200).json(user);
       });
     });
-
   router.route('/users/:user')
     .get((req, res) => {
       User.findById(req.params.user, (err, user) => {
